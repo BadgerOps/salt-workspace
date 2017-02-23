@@ -6,14 +6,8 @@ file_roots:
   base:
     - /srv/salt
     - /srv/formulas
-    - /srv/formulas2
+    - /srv/formulas/salt-formula
     - /srv/salt/roles
 pillar_roots:
   base:
     - /srv/pillar
-  dev:
-    - /srv/pillar/dev
-  staging:
-    - /srv/pillar/staging
-  prod:
-    - /srv/pillar/prod
