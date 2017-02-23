@@ -1,0 +1,19 @@
+master: 192.168.50.4
+startup_states: highstate
+multiprocessing: false
+
+file_roots:
+  base:
+    - /srv/salt
+    - /srv/formulas
+    - /srv/formulas2
+    - /srv/salt/roles
+pillar_roots:
+  base:
+    - /srv/pillar
+  dev:
+    - /srv/pillar/dev
+  staging:
+    - /srv/pillar/staging
+  prod:
+    - /srv/pillar/prod
