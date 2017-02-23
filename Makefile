@@ -5,6 +5,7 @@ SHASUM = $(shell test `uname` == 'Darwin' && echo shasum -a 256 || echo sha256su
 
 
 all: formulas
+	@mkdir -p dist 
 	@rsync -a ./salt/ ./dist/salt/ --delete
 	@rsync -a ./formulas/ ./dist/formulas/ --delete
 	@rsync -a ./pillar/ ./dist/pillar/ --delete
