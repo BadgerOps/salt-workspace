@@ -18,7 +18,7 @@ This is a skeleton workspace for salt using vagrant
       ```bash
       vagrant plugin install vagrant-hostmanager
       ```
-    c. Install [Docker Machine](https://docs.docker.com/engine/installation/mac/)
+    c. Install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
     d. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
 
