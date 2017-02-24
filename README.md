@@ -22,7 +22,9 @@ This is a skeleton workspace for salt using vagrant
 
     d. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
 
-    e. Ensure pyaml is installed:
+    e. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
+
+    f. Ensure pyaml is installed:
 
    ```bash
    brew install libyaml
@@ -177,7 +179,7 @@ It's possible to encrypt pillar values using the [GPG renderer](http://docs.salt
 You'll need to first install [GnuPG](https://www.gnupg.org/download/). Once installed, you can create and import the Salt key with the following command.
 
 You can then follow [this guide](https://fedoraproject.org/wiki/Creating_GPG_Keys#Creating_GPG_Keys_Using_the_Command_Line) to create your GPG key, the following steps assume the name is 'Salt Master'
- 
+
 ```bash
 gpg --import salt_key.asc
 ```
