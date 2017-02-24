@@ -36,7 +36,7 @@ This is a skeleton workspace for salt using vagrant
     ```bash
     docker-machine start
     eval $(docker-machine env )
-    git clone https://github.com/NuanceDevOps/salt-workspace.git
+    git clone https://github.com/BadgerOps/salt-workspace.git
     cd salt-workspace
     make
     make test
@@ -73,7 +73,7 @@ For convenience  you’ll want to set up an elevated command prompt shortcut. - 
     boot2docker init
     boot2docker start
     boot2docker status # this should say "running"
-    git clone https://github.com/NuanceDevOps/salt-workspace.git
+    git clone https://github.com/BadgerOps/salt-workspace.git
     cd salt-workspace
     ```
 
@@ -147,7 +147,7 @@ Use the following workflow to submit a new feature or bug fix.
 Below is an example of steps 1-5.
 
 ```bash
-git clone https://github.com/NuanceDevOps/salt-workspace.git
+git clone https://github.com/BadgerOps/salt-workspace.git
 cd salt-workspace
 git config user.name "Doe, John"
 git config user.email john.doe@foo.tld
