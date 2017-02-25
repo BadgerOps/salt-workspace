@@ -12,10 +12,12 @@ BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos
 # Default distribution is CentOS version 6
 # Use LINUX_DISTRO and LINUX_VERSION to override
 
-LINUX_DISTRO = ENV['LINUX_DISTRO'] || 'centos'
+LINUX_DISTRO = ENV['LINUX_DISTRO'] || ENV['LINUX_DISTRIBUTION'] || 'centos'
 LINUX_VERSION = ENV['LINUX_VERSION'] || '6'
 
 LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
+puts "Chose image '#{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
+
 
 # Default windows box to 2012
 WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || '2012'
@@ -39,7 +41,7 @@ Vagrant.configure('2') do |config|
     saltmaster.vm.provider "virtualbox" do |v|
       v.linked_clone = true
     end
-    saltmaster.vm.box = CENT_7_BOX
+    saltmaster.vm.box = LINUX_BOX
     saltmaster.vm.hostname = 'saltmaster'
     saltmaster.vm.network 'private_network', ip: '192.168.50.4'
     saltmaster.vm.synced_folder './dist', '/srv'
