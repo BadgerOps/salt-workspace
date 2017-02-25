@@ -7,6 +7,7 @@ salt:
         - /srv/salt
         - /srv/formulas
         - /srv/formulas/salt-formula
+        - /srv/formulas/consul-formula
         - /srv/salt/roles
     pillar_roots:
       base:
