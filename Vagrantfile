@@ -5,22 +5,27 @@ SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.3'
 
 # Supported distributions/versions
 
-BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos-7.3'},
-         'ubuntu'   =>  {'1404' => 'bento/ubuntu-14.04', '1604' => 'bento/ubuntu-16.04'},
-         'windows'  =>  {'2012' => 'opentable/win-2012r2-standard-amd64-nocm'}}
+BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos-7.3',   'default' => '7'},
+         'ubuntu'   =>  {'1404' => 'bento/ubuntu-14.04', '1604' => 'bento/ubuntu-16.04', 'default' => '1604'},
+         'windows'  =>  {'2012' => 'opentable/win-2012r2-standard-amd64-nocm',           'default' => '2012'}}
 
-# Default distribution is CentOS version 6
+# Default distribution is CentOS version 7
 # Use LINUX_DISTRO and LINUX_VERSION to override
 
 LINUX_DISTRO = ENV['LINUX_DISTRO'] || ENV['LINUX_DISTRIBUTION'] || 'centos'
-LINUX_VERSION = ENV['LINUX_VERSION'] || '6'
+LINUX_VERSION = ENV['LINUX_VERSION'] || BOXES[LINUX_DISTRO]['default']
+
+if not BOXES[LINUX_DISTRO].has_key?(LINUX_VERSION)
+  puts "Invalid version '#{LINUX_VERSION}' for #{LINUX_DISTRO}!\n\nValid versions: #{BOXES[LINUX_DISTRO].keys}"
+  Kernel.exit(1)
+end
 
 LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
 puts "Chose image '#{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
 
 
 # Default windows box to 2012
-WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || '2012'
+WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || 'default'
 WINDOWS_BOX = BOXES['windows'][WINDOWS_VERSION]
 
 
