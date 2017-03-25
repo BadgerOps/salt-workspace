@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.2'
+SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.3'
 
 # Supported distributions/versions
 
@@ -37,6 +37,16 @@ fi
 EOF
 
 Vagrant.configure('2') do |config|
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = false
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+  end
   config.vm.define 'saltmaster' do |saltmaster|
     saltmaster.vm.provider "virtualbox" do |v|
       v.linked_clone = true
