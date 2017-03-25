@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.2'
+SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.3'
 CENT_6_BOX = 'bento/centos-6.8'
 CENT_7_BOX = 'bento/centos-7.3'
 WINDOWS_BOX = 'opentable/win-2012r2-standard-amd64-nocm'
