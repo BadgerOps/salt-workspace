@@ -13,7 +13,7 @@ BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos
 # Use LINUX_DISTRO and LINUX_VERSION to override
 
 LINUX_DISTRO = ENV['LINUX_DISTRO'] || ENV['LINUX_DISTRIBUTION'] || 'centos'
-LINUX_VERSION = ENV['LINUX_VERSION'] || '6'
+LINUX_VERSION = ENV['LINUX_VERSION'] || '7'
 
 LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
 puts "Chose image '#{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
