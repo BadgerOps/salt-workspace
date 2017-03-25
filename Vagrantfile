@@ -2,19 +2,36 @@
 # vi: set ft=ruby :
 
 SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.3'
-CENT_6_BOX = 'bento/centos-6.8'
-CENT_7_BOX = 'bento/centos-7.3'
-WINDOWS_BOX = 'opentable/win-2012r2-standard-amd64-nocm'
-CENT_VERSION = ENV['CENT_VERSION'] || '7'
+
+# Supported distributions/versions
+
+BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos-7.3',   'default' => '7'},
+         'ubuntu'   =>  {'1404' => 'bento/ubuntu-14.04', '1604' => 'bento/ubuntu-16.04', 'default' => '1604'},
+         'windows'  =>  {'2012' => 'opentable/win-2012r2-standard-amd64-nocm',           'default' => '2012'}}
+
+# Default distribution is CentOS version 7
+# Use LINUX_DISTRO and LINUX_VERSION to override
+
+LINUX_DISTRO = ENV['LINUX_DISTRO'] || ENV['LINUX_DISTRIBUTION'] || 'centos'
+LINUX_VERSION = ENV['LINUX_VERSION'] || BOXES[LINUX_DISTRO]['default']
+
+if not BOXES[LINUX_DISTRO].has_key?(LINUX_VERSION)
+  puts "Invalid version '#{LINUX_VERSION}' for #{LINUX_DISTRO}!\n\nValid versions: #{BOXES[LINUX_DISTRO].keys}"
+  Kernel.exit(1)
+end
+
+LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
+puts "Chose image '#{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
+
+
+# Default windows box to 2012
+WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || 'default'
+WINDOWS_BOX = BOXES['windows'][WINDOWS_VERSION]
+
+
 LINUX_MINION_COUNT = ENV['LINUX_MINION_COUNT'] || '1'
 LINUX_BOX_RAM = ENV['LINUX_BOX_RAM'] || '512'
 
-# We'll default to 7, but give the option to test with 6
-if CENT_VERSION == '6'
-  LINUX_BOX = CENT_6_BOX
-else
-  LINUX_BOX = CENT_7_BOX
-end
 
 LINUX_SCRIPT = <<EOF
 test -f /etc/sysconfig/network-scripts/ifcfg-enp0s8 && ifup enp0s8
@@ -39,7 +56,7 @@ Vagrant.configure('2') do |config|
     saltmaster.vm.provider "virtualbox" do |v|
       v.linked_clone = true
     end
-    saltmaster.vm.box = CENT_7_BOX
+    saltmaster.vm.box = LINUX_BOX
     saltmaster.vm.hostname = 'saltmaster'
     saltmaster.vm.network 'private_network', ip: '192.168.50.4'
     saltmaster.vm.synced_folder './dist', '/srv'
