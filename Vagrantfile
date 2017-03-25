@@ -5,14 +5,15 @@ SALT_VERSION = ENV['SALT_VERSION'] || '2016.11.3'
 CENT_6_BOX = 'bento/centos-6.8'
 CENT_7_BOX = 'bento/centos-7.3'
 WINDOWS_BOX = 'opentable/win-2012r2-standard-amd64-nocm'
-CENT_VERSION = ENV['CENT_VERSION'] || '6'
+CENT_VERSION = ENV['CENT_VERSION'] || '7'
 LINUX_MINION_COUNT = ENV['LINUX_MINION_COUNT'] || '1'
 LINUX_BOX_RAM = ENV['LINUX_BOX_RAM'] || '512'
 
-if CENT_VERSION == '7'
-  LINUX_BOX = CENT_7_BOX
-else
+# We'll default to 7, but give the option to test with 6
+if CENT_VERSION == '6'
   LINUX_BOX = CENT_6_BOX
+else
+  LINUX_BOX = CENT_7_BOX
 end
 
 LINUX_SCRIPT = <<EOF
