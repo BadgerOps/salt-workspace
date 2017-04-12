@@ -137,17 +137,18 @@ roles:
 
 Use the following workflow to submit a new feature or bug fix.
 
-1. Clone the repository.
-2. Ensure your user information is correct.
-3. Create a new branch locally.
-4. Make your changes and commit locally.
-5. Push the changes to Stash to the new branch.
-6. Submit a pull request.
+1. Fork the repository
+2. Clone the repository.
+3. Ensure your user information is correct.
+4. Create a new branch locally.
+5. Make your changes and commit locally.
+6. Push the changes to Stash to the new branch.
+7. Submit a pull request.
 
-Below is an example of steps 1-5.
+Below is an example of steps 2-5 - you'll want to fork the repository to your own github profile first.
 
 ```bash
-git clone https://github.com/BadgerOps/salt-workspace.git
+git clone https://github.com/john_doe/salt-workspace.git
 cd salt-workspace
 git config user.name "Doe, John"
 git config user.email john.doe@foo.tld
