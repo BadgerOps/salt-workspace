@@ -1,9 +1,9 @@
-This is a skeleton workspace for salt using vagrant
-===================================================
+This is a workspace for learning the Saltstack configuration management tool
+============================================================================
 
-#TODO: update this readme with some further example on how to use this workspace soon.
+This workspace is being developed alongside a series of blog posts on badgerops.net. While it can be used as a stand alone framework, there will (hopefully!) be good value in following along with the blog series.
 
-#Salt
+The following information should get you up and running on either OS X, Windows or Linux.
 
 ## Development Setup
 
@@ -94,7 +94,7 @@ Because development environment differ, this is not included in this repository.
 The Linux test hosts default to RHEL 6.x. If you want to test RHEL 7.x, set your environment variable RHEL_VERSION to 7 ```export RHEL_VERSION=7```
 
 1. Launch the saltmaster and linux hosts ```vagrant up```. This may take a while when running for the very first time because the VM needs to be downloaded. Ensure that you're on a fast internet connection.
-2. Log into the test Linux host ```vagrant ssh linux-1```. Here you can run ```sudo su -``` to become root. No password is required.
+2. Log into the test Linux host ```vagrant ssh linux-1```. Here you can run ```sudo su -``` to become root. No password is required. (if prompted, it will be the vagrant default 'vagrant')
 3. A highstate should get invoked during provisioning. To re-run a highstate, invoke ```sudo salt-call state.highstate``` from within the test VM.
 4. To test a specific role, add a role to the grains file in ```/etc/salt/grains``` and re-run a highstate. For example, to test the role foo_bar, edit the grains file to match the following snippet.
 ```yaml
