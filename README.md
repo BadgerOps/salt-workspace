@@ -78,11 +78,11 @@ For convenience  you’ll want to set up an elevated command prompt shortcut. - 
     ```
 
 
-## Local Testing
+## Salt development
 
 Prior to testing your changes, make sure you build the project first. Vagrant will only expose the ./dist directory to the saltmaster's /srv directory. Running the command 'make' in the root directory should build the entire project for you.
 
-Make sure you re-run make after each local change or it will not be reflected in the virtual environment.
+#### *Make sure you re-run make after each local change or it will not be reflected in the virtual environment.*
 
 This can be automated on your development machine using various tools such as [Watchman](https://facebook.github.io/watchman/). They will monitor your directory for changes and automatically run the make command for you.
 
