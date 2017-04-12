@@ -91,7 +91,7 @@ Because development environment differ, this is not included in this repository.
 
 ### Linux
 
-The Linux test hosts default to RHEL 6.x. If you want to test RHEL 7.x, set your environment variable RHEL_VERSION to 7 ```export RHEL_VERSION=7```
+The Linux test hosts default to RHEL 7.x. If you want to test RHEL 6.x, set your environment variable LINUX_VERSION to 6: ```export LINUX_VERSION=6```
 
 1. Launch the saltmaster and linux hosts ```vagrant up```. This may take a while when running for the very first time because the VM needs to be downloaded. Ensure that you're on a fast internet connection.
 2. Log into the test Linux host ```vagrant ssh linux-1```. Here you can run ```sudo su -``` to become root. No password is required. (if prompted, it will be the vagrant default 'vagrant')
