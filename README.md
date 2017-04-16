@@ -1,7 +1,7 @@
 This is a workspace for learning the Saltstack configuration management tool
 ============================================================================
 
-This workspace is being developed alongside a series of blog posts on badgerops.net. While it can be used as a stand alone framework, there will (hopefully!) be good value in following along with the blog series.
+This workspace is being developed alongside a series of blog posts on https://badgerops.net. While it can be used as a stand alone framework, there will (hopefully!) be good value in following along with the blog series.
 
 The following information should get you up and running on either OS X, Windows or Linux.
 
