@@ -142,7 +142,7 @@ Use the following workflow to submit a new feature or bug fix.
 3. Ensure your user information is correct.
 4. Create a new branch locally.
 5. Make your changes and commit locally.
-6. Push the changes to Stash to the new branch.
+6. Push the changes to the upstream repository.
 7. Submit a pull request.
 
 Below is an example of steps 2-5 - you'll want to fork the repository to your own github profile first.
