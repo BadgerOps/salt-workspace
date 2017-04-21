@@ -18,7 +18,7 @@ The following information should get you up and running on either OS X, Windows 
       ```bash
       vagrant plugin install vagrant-hostmanager
       ```
-    c. Install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+    c. OPTIONAL, for docker based testing: Install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
     d. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
 
