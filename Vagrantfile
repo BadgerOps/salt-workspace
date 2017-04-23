@@ -24,7 +24,8 @@ LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
 puts "Chose Linux image #{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
 
 
-# Default windows box to 2012
+# Default Windows distribution is 2012r2 standard
+# Use WINDOWS_VERSION or WINDOWS_BOX to override #TODO: add win 2016 version when its available
 WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || BOXES['windows']['default']
 WINDOWS_BOX = BOXES['windows'][WINDOWS_VERSION]
 
