@@ -179,7 +179,13 @@ It's possible to encrypt pillar values using the [GPG renderer](http://docs.salt
 
 You'll need to first install [GnuPG](https://www.gnupg.org/download/). Once installed, you can create and import the Salt key with the following command.
 
-You can then follow [this guide](https://fedoraproject.org/wiki/Creating_GPG_Keys#Creating_GPG_Keys_Using_the_Command_Line) to create your GPG key, the following steps assume the name is 'Salt Master'
+You can then follow [this guide](https://fedoraproject.org/wiki/Creating_GPG_Keys#Creating_GPG_Keys_Using_the_Command_Line) to create your GPG key, the following steps assume the name is 'Salt Master', or as noted [in the documentation](https://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.gpg.html) you can do the following:
+```
+# mkdir -p /etc/salt/gpgkeys
+# chmod 0700 /etc/salt/gpgkeys
+# gpg --gen-key --homedir /etc/salt/gpgkeys
+```
+*IMPORTANT:* safeguard the private key that is generated, this (must!) live on the salt master under `/etc/salt/gpgkeys` but you should take precautions to keep it safe and secure, or your secrets encrypted with it are meaningless.
 
 ```bash
 gpg --import salt_key.asc
@@ -191,6 +197,6 @@ You can encrypt a new password with the following command where 'mysecret' witho
 echo -n 'mysecret' | gpg --armor --encrypt -r 'Salt Master'
 ```
 
-Once you have this text, you can add to Pillar. Any pillar file must have the string '#!yaml|gpg' without quotes at the top in order for the GPG renderer to kick in.
+Once you have this text, you can add to Pillar. Any pillar file must have the string `#!yaml|gpg` at the top in order for the GPG renderer to kick in.
 
 When the pillar file is rendered, it will get decrypted on the master and your minion will receive the plain text value.
