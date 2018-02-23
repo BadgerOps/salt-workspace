@@ -56,6 +56,7 @@ Vagrant.configure('2') do |config|
   end
   config.vm.define 'saltmaster' do |saltmaster|
     saltmaster.vm.provider "virtualbox" do |v|
+      v.memory = LINUX_BOX_RAM.to_i
       v.linked_clone = true
     end
     saltmaster.vm.box = LINUX_BOX
