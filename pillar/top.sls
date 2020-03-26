@@ -1,3 +1,3 @@
-__env__:
+"{{ saltenv }}":
   '*':
     - base
