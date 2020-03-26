@@ -1,10 +1,25 @@
 auto_accept: True
 
-file_roots:
-  base:
-    - /srv/salt
-    - /srv/formulas
-    - /srv/salt/roles
+# comment out the default file_roots
+# file_roots:
+#   base:
+#     - /srv/salt
+#     - /srv/formulas
+#     - /srv/salt/roles
+# pillar_roots:
+#   base:
+#     - /srv/pillar
+
+fileserver_backend:
+  - gitfs
+gitfs_remotes:
+  - https://github.com/BadgerOps/salt-workspace.git:
+    - root: salt
+
 pillar_roots:
-  base:
-    - /srv/pillar
+  __env__:
+    salt://pillar
+ext_pillar:
+  - git:
+    - __env__ https://github.com/BadgerOps/salt-workspace.git:
+      - root: pillar
