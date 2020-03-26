@@ -1,3 +1,3 @@
-"{{ saltenv }}":
+base:
   '*':
     - roles
