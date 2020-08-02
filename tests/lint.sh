@@ -41,8 +41,8 @@ test_pillar_compilation() {
     # Execute each check in a separate process to speed things up.
     (
       local tmpfile=$(mktemp)
-      python tests/strip_jinja.py $file > $tmpfile
-      python -c "import yaml; yaml.load(open('$tmpfile', 'r').read())"
+      python3 tests/strip_jinja.py $file > $tmpfile
+      python3 -c "import yaml; yaml.load(open('$tmpfile', 'r').read(), Loader=yaml.SafeLoader)"
       if [[ $? -ne 0 ]]; then
         echo -e "\n\t\x1b[31;01mPillar '$file' does not compile.\x1b[9;49;00m"
         echo $file >> $errors

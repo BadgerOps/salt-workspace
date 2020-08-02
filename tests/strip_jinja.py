@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 
@@ -20,5 +20,5 @@ for sls in sys.argv[1:]:
     text=strip_jinja(text,("{%","%}"))
     text=strip_jinja(text,("{{","}}"))
     text=strip_jinja(text,("{#","#}"))
-    print text
+    print(text)
 

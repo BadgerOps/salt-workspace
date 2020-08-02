@@ -5,7 +5,7 @@ SALT_VERSION = ENV['SALT_VERSION'] || '3000.3'
 
 # Supported distributions/versions
 
-BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos-7.3',  '8'    => 'bento/centos-8'  'default' => '7'},
+BOXES = {'centos'   =>  {'6'    => 'bento/centos-6.8',   '7'    => 'bento/centos-7.3',  '8'    => 'bento/centos-8',  'default' => '7'},
          'ubuntu'   =>  {'1404' => 'bento/ubuntu-14.04', '1604' => 'bento/ubuntu-16.04', 'default' => '1604'},
          'windows'  =>  {'2012' => 'opentable/win-2012r2-standard-amd64-nocm',           'default' => '2012'}}
 
