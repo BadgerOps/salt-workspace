@@ -7,7 +7,9 @@ The following information should get you up and running on either OS X, Windows 
 
 ## Development Setup
 
-### OS X
+### OS X / Linux
+
+- Please not that when installing the below packages, unless specified, install from website or link.
 
 1. Install dependencies
 
@@ -18,17 +20,16 @@ The following information should get you up and running on either OS X, Windows 
       ```bash
       vagrant plugin install vagrant-hostmanager
       ```
-    c. OPTIONAL, for docker based testing: Install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+    C. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
 
-    d. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
+    D. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
 
-    e. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
-
-    f. Ensure pyaml is installed:
+    e. Ensure pyaml is installed:
 
    ```bash
    brew install libyaml
-   sudo python -m easy_install pyyaml
+   sudo apt install python3-pip
+   pip3 install pyyaml
    ```
 
 2. Clone the repo, build the project and run the tests (may take a while for the first time). DO NOT move on until dependencies are resolved.
@@ -42,40 +43,6 @@ The following information should get you up and running on either OS X, Windows 
     make test
     ```
     - if make test fails, its most likely because pyyaml is not installed
-
-### Windows 7
-(NOT RELIABLE -- OLD INSTRUCTION -- DOESN'T WORK)
-
-1. Install dependencies
-
-    a. Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads)    
-    b. Install [Vagrant](https://www.vagrantup.com/downloads.html)    
-    - install vagrant plugin:
-    ```bash
-    vagrant plugin install vagrant-hostmanager
-    ```
-    c. Install [boot2docker](https://github.com/boot2docker/windows-installer/releases)    
-    d. Install [Download Git](https://git-scm.com/download/win)
-
-When you install Git, you have the option to add Git and its Linux-style command line tools to your system Path.  Do this!
-
-Select the Advanced context menu (git-cheetah plugin)
-
-Select "Use Git and optional Unix tools from the Windows Command Prompt"
-
-Select "Checkout Windows-style, commit Unix-style line endings"
-
-For convenience  you’ll want to set up an elevated command prompt shortcut. - Create New Shortcut to : %windir%\system32\cmd.exe - Under the security tab confirm that it "Runs as Admin"
-
-2. Setup boot2docker, clone the repo, build the project and run the tests (may take a while for the first time)
-
-    ```bash
-    boot2docker init
-    boot2docker start
-    boot2docker status # this should say "running"
-    git clone https://github.com/BadgerOps/salt-workspace.git
-    cd salt-workspace
-    ```
 
 
 ## Salt development
