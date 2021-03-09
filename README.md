@@ -44,7 +44,7 @@ The following information should get you up and running on either OS X, Windows 
     - if make test fails, its most likely because pyyaml is not installed
 
 ### Windows 7
-(I don't use windows, but this should work)
+(NOT RELIABLE -- OLD INSTRUCTION -- DOESN'T WORK)
 
 1. Install dependencies
 
