@@ -20,9 +20,9 @@ The following information should get you up and running on either OS X, Windows 
       ```bash
       vagrant plugin install vagrant-hostmanager
       ```
-    C. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
+    c. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
 
-    D. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
+    d. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
 
     e. Ensure pyaml is installed:
 
