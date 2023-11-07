@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-SALT_VERSION = ENV['SALT_VERSION'] || '3000.3'
+SALT_VERSION = ENV['SALT_VERSION'] || '3005.2'
 
 # Supported distributions/versions
 
@@ -9,22 +9,23 @@ BOXES = {
         'centos'   =>  {
           '6' => 'bento/centos-6.8',
           '7' => 'bento/centos-7.8',
-          '8' => 'bento/centos-8',
-          'default' => '7'
+          '8' => 'bento/almalinux-8.8',
+          '9' => 'bento/almalinux-9.2',
+          'default' => '8'
         },
         'ubuntu'   =>  {
-          '1804' => 'bento/ubuntu-18.04',
-          '2004' => 'bento/ubuntu-20.04',
-          'default' => '2004'
+          '2304' => 'bento/ubuntu-23.04',
+          '2210' => 'bento/ubuntu-22.10',
+          'default' => '2210'
         },
-        'windows'  =>  {
-          '2012' => 'devopsgroup-io/windows_server-2012r2-standard-amd64-nocm',
-          'default' => '2012'
-        },
+        # 'windows'  =>  {
+        #   '2012' => 'devopsgroup-io/windows_server-2012r2-standard-amd64-nocm',
+        #   'default' => '2012'
+        # },
         'rhel'  =>  {
           '7' => 'generic/rhel7',
           '8' => 'generic/rhel8',
-          'default' => '7'
+          'default' => '8'
         }
   }
 
@@ -51,7 +52,7 @@ WINDOWS_BOX = BOXES['windows'][WINDOWS_VERSION]
 puts "Chose Windows image #{WINDOWS_BOX} from args WINDOWS_BOX=#{WINDOWS_BOX} WINDOWS_VERSION=#{WINDOWS_VERSION}"
 
 LINUX_MINION_COUNT = ENV['LINUX_MINION_COUNT'] || '1'
-LINUX_BOX_RAM = ENV['LINUX_BOX_RAM'] || '512'
+LINUX_BOX_RAM = ENV['LINUX_BOX_RAM'] || '1024'
 
 
 LINUX_SCRIPT = <<EOF
