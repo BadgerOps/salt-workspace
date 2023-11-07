@@ -28,15 +28,17 @@ The following information should get you up and running on either OS X, Windows 
 
    ```bash
    brew install libyaml
+   # Or
    sudo apt install python3-pip
    pip3 install pyyaml
    ```
 
-2. Clone the repo, build the project and run the tests (may take a while for the first time). DO NOT move on until dependencies are resolved.
+2. Ensure [Docker is installed](https://docs.docker.com/desktop/install/mac-install/)
+  - Note: the tests are currently ran in Docker, might refactor to run everything in Docker eventually.
+
+3. Clone the repo, build the project and run the tests (may take a while for the first time). DO NOT move on until dependencies are resolved.
 
     ```bash
-    docker-machine start
-    eval $(docker-machine env )
     git clone https://github.com/BadgerOps/salt-workspace.git
     cd salt-workspace
     make
@@ -58,7 +60,7 @@ Because development environment differ, this is not included in this repository.
 
 ### Linux
 
-The Linux test hosts default to RHEL 7.x. If you want to test RHEL 6.x, set your environment variable LINUX_VERSION to 6: ```export LINUX_VERSION=6```
+The Linux test hosts default to AlmaLinux 8.x. If you want to test AlmaLinux 7.x, set your environment variable LINUX_VERSION to 7: ```export LINUX_VERSION=7```
 
 1. Launch the saltmaster and linux hosts ```vagrant up```. This may take a while when running for the very first time because the VM needs to be downloaded. Ensure that you're on a fast internet connection.
 2. Log into the test Linux host ```vagrant ssh linux-1```. Here you can run ```sudo su -``` to become root. No password is required. (if prompted, it will be the vagrant default 'vagrant')
@@ -82,10 +84,10 @@ You should now have a linux-1, linux-2, and linux-3 machine.
 
 ####  Memory Settings
 
-Some minions may require more than the default memory of 512MB. You may increase this before running vagrant up. The following example uses 1GB of memory per minion.
+Some minions may require more than the default memory of 1024MB. You may increase this before running vagrant up. The following example uses 2GB of memory per minion.
 
 ```bash
-export LINUX_BOX_RAM=1024
+export LINUX_BOX_RAM=2048
 vagrant up
 ```
 
