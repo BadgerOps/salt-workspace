@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-SALT_VERSION = ENV['SALT_VERSION'] || '3005.2'
+SALT_VERSION = ENV['SALT_VERSION'] || '3006.5'
 
 # Supported distributions/versions
 
