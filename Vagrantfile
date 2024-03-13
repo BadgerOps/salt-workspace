@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-SALT_VERSION = ENV['SALT_VERSION'] || '3006.5'
+SALT_VERSION = ENV['SALT_VERSION'] || '3006.7'
 
 # Supported distributions/versions
 
@@ -9,9 +9,9 @@ BOXES = {
         'centos'   =>  {
           '6' => 'bento/centos-6.8',
           '7' => 'bento/centos-7.8',
-          '8' => 'bento/almalinux-8.8',
-          '9' => 'bento/almalinux-9.2',
-          'default' => '8'
+          '8' => 'bento/almalinux-8.9',
+          '9' => 'bento/almalinux-9.3',
+          'default' => '9'
         },
         'ubuntu'   =>  {
           '2304' => 'bento/ubuntu-23.04',
