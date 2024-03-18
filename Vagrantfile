@@ -7,7 +7,6 @@ SALT_VERSION = ENV['SALT_VERSION'] || '3006.7'
 
 BOXES = {
         'centos'   =>  {
-          '6' => 'bento/centos-6.8',
           '7' => 'bento/centos-7.8',
           '8' => 'bento/almalinux-8.9',
           '9' => 'bento/almalinux-9.3',
@@ -29,7 +28,7 @@ BOXES = {
         }
   }
 
-# Default distribution is CentOS version 7
+# Default distribution is AlmaLinux version 9
 # Use LINUX_DISTRO and LINUX_VERSION to override
 
 LINUX_DISTRO = ENV['LINUX_DISTRO'] || ENV['LINUX_DISTRIBUTION'] || 'centos'
@@ -42,14 +41,6 @@ end
 
 LINUX_BOX = BOXES[LINUX_DISTRO][LINUX_VERSION]
 puts "Chose Linux image #{LINUX_BOX} from args LINUX_DISTRO=#{LINUX_DISTRO} LINUX_VERSION=#{LINUX_VERSION}"
-
-
-# Default Windows distribution is 2012r2 standard
-# Use WINDOWS_VERSION or WINDOWS_BOX to override #TODO: add win 2016 version when its available
-WINDOWS_VERSION = ENV['WINDOWS_VERSION'] || BOXES['windows']['default']
-WINDOWS_BOX = BOXES['windows'][WINDOWS_VERSION]
-
-puts "Chose Windows image #{WINDOWS_BOX} from args WINDOWS_BOX=#{WINDOWS_BOX} WINDOWS_VERSION=#{WINDOWS_VERSION}"
 
 LINUX_MINION_COUNT = ENV['LINUX_MINION_COUNT'] || '1'
 LINUX_BOX_RAM = ENV['LINUX_BOX_RAM'] || '1024'
@@ -64,6 +55,11 @@ fi
 EOF
 
 Vagrant.configure('2') do |config|
+  config.trigger.before :up do |trigger|
+    trigger.name = "Create ./dist folder"
+    trigger.info = "Running 'make' to create ./dist folder..."
+    trigger.run = {inline: "make"}
+  end
   if Vagrant.has_plugin?("vagrant-cachier")
  config.cache.scope = :box
   end
@@ -81,7 +77,7 @@ Vagrant.configure('2') do |config|
  end
  saltmaster.vm.box = LINUX_BOX
  saltmaster.vm.hostname = 'saltmaster'
- saltmaster.vm.network 'private_network', ip: '192.168.50.4'
+ saltmaster.vm.network 'private_network', ip: '192.168.56.4'
  saltmaster.vm.synced_folder './dist', '/srv'
  saltmaster.vm.provision 'shell', inline: LINUX_SCRIPT
  saltmaster.vm.provision :salt do |salt|
@@ -103,7 +99,7 @@ Vagrant.configure('2') do |config|
  end
  linux.vm.hostname = "linux-#{i}"
  linux.vm.box = LINUX_BOX
- linux.vm.network 'private_network', ip: "192.168.50.#{i+4}"
+ linux.vm.network 'private_network', ip: "192.168.56.#{i+4}"
  linux.vm.provision 'shell', inline: LINUX_SCRIPT
  linux.vm.provision :salt do |salt|
    salt.install_master = false
@@ -113,24 +109,6 @@ Vagrant.configure('2') do |config|
    salt.install_args = SALT_VERSION
    salt.minion_config = 'config/minion'
  end
- end
-  end
-  config.vm.define 'windows', autostart: false do |windows|
- windows.vm.provider "virtualbox" do |v|
-   v.linked_clone = true
- end
- windows.vm.box = WINDOWS_BOX
- windows.vm.hostname = 'windows'
- windows.vm.communicator = 'winrm'
- windows.winrm.username = 'Administrator'
- windows.winrm.password = 'vagrant'
- windows.vm.network 'private_network', ip: '192.168.50.6'
- windows.vm.network 'forwarded_port', host: 33389, guest: 3389
- windows.vm.provision :salt do |salt|
-   salt.minion_config = 'config/minion'
-   salt.masterless = false
-   salt.run_highstate = true
-   salt.version = SALT_VERSION
  end
   end
 end
