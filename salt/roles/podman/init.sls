@@ -35,14 +35,7 @@ Docker python:
     - bin_env: /usr/bin/pip3
     - reload_modules: true
     - pkgs:
-        - certifi==2019.11.28
-        - chardet==3.0.4
-        - docker==4.2.1
-        - idna==2.9
-        # - requests==2.23.0
-        - six==1.14.0
-        - urllib3==1.25.8
-        - websocket-client==0.57.0
+        - docker-py
 
 restart_salt_minion:
   cmd.run:
