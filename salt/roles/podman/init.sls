@@ -1,3 +1,5 @@
+# Ref from https://github.com/saltstack/salt/issues/50624
+# https://github.com/containers/podman/issues/5580#issuecomment-773786713
 Pip pkg:
   pkg.installed:
     - name: python3-pip
