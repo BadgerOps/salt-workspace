@@ -2,12 +2,6 @@ Pip pkg:
   pkg.installed:
     - name: python3-pip
 
-Podman repo:
-  pkgrepo.managed:
-    - name: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /
-    - key_url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_20.04/Release.key
-    - file: /etc/apt/sources.list.d/podman.list
-
 Podman pkg:
   pkg.installed:
     - name: podman
