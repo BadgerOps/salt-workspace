@@ -7,6 +7,7 @@ motd:
            #                                                                                                       #
            #########################################################################################################
 
+# Proxmox currently is busted due to https://github.com/salt-extensions/saltext-proxmox/issues/36 
 proxmox:
   provider: |
           proxmox-config:
