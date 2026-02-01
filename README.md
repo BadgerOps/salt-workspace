@@ -161,42 +161,53 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 This project includes a [Nix flake](https://nixos.wiki/wiki/Flakes) for reproducible development environments. All dependencies are pinned and isolated from your system.
 
-**With Nix flakes (recommended):**
+**Available shells:**
+
+| Shell | Command | Description |
+|-------|---------|-------------|
+| Default | `nix develop` | Docker-based testing (works everywhere) |
+| Vagrant | `nix develop .#withVagrant` | Full VMs (requires VirtualBox) |
+| Lima | `nix develop .#withLima` | Lightweight VMs (macOS/Linux) |
+
+**Quick start:**
 
 ```bash
-# Enter development shell
+# Default shell (Docker-based, recommended for most users)
 nix develop
 
-# Or run a command directly
+# Run tests directly
 nix develop --command make test
+
+# If you need full VMs for testing
+nix develop .#withLima        # Lightweight VMs, no VirtualBox needed
+nix develop .#withVagrant     # Traditional Vagrant VMs
 ```
 
 **With nix-shell (legacy):**
 
 ```bash
-nix-shell
+nix-shell                              # Default
+nix-shell --arg withLima true          # With Lima
+nix-shell --arg withVagrant true       # With Vagrant
 ```
 
 **With direnv (automatic activation):**
 
 ```bash
-# One-time setup
-direnv allow
-
-# Now the environment activates automatically when you cd into the project
-cd salt-workspace  # environment loads automatically
+direnv allow    # One-time setup, then auto-activates on cd
 ```
 
-**What's included in the Nix environment:**
+**What's included:**
 
 | Tool | Purpose |
 |------|---------|
 | Python 3.11 + PyYAML | Scripts and linting |
 | Docker + docker-compose | Container-based testing |
-| Vagrant | VM management (requires VirtualBox) |
 | yamllint, shellcheck | Linting and validation |
 | make, rsync, git | Build tools |
 | jq, yq | YAML/JSON utilities |
+| Lima (optional) | Lightweight Linux VMs |
+| Vagrant (optional) | Full VM management |
 
 **Installing Nix:**
 
