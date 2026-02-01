@@ -9,7 +9,13 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            # Vagrant uses BSL 1.1 license (considered unfree by Nix)
+            allowUnfree = true;
+          };
+        };
 
         # Python environment with required packages
         pythonEnv = pkgs.python311.withPackages (ps: with ps; [
