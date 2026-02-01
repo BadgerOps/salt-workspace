@@ -1,0 +1,87 @@
+# Lima VM template with Salt pre-installed
+# Usage: limactl start ./lima/salt.yaml
+#
+# This creates an Ubuntu VM with Salt 3006 in masterless mode,
+# ready for testing formulas from this workspace.
+
+# VM settings
+cpus: 2
+memory: 2GiB
+disk: 20GiB
+
+# Use Ubuntu 24.04 LTS (good ARM64 support)
+images:
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img"
+    arch: "x86_64"
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+    arch: "aarch64"
+
+# Mount the workspace read-only for testing
+mounts:
+  - location: "~"
+    writable: false
+  - location: "/tmp/lima"
+    writable: true
+
+# Provision Salt on first boot
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+
+      echo "=== Installing Salt 3006 (stable) ==="
+
+      # Install Salt via bootstrap script
+      curl -fsSL https://bootstrap.saltproject.io -o /tmp/bootstrap-salt.sh
+      sh /tmp/bootstrap-salt.sh -P stable 3006
+
+      # Configure masterless mode
+      cat > /etc/salt/minion.d/masterless.conf <<'EOF'
+      # Masterless (standalone) mode
+      file_client: local
+
+      # File roots - uses Lima mount
+      file_roots:
+        base:
+          - /srv/salt
+          - /srv/formulas
+
+      # Pillar roots
+      pillar_roots:
+        base:
+          - /srv/pillar
+      EOF
+
+      # Create directories
+      mkdir -p /srv/salt /srv/formulas /srv/pillar
+
+      echo "=== Salt installed ==="
+      salt-call --version
+
+  - mode: user
+    script: |
+      #!/bin/bash
+      echo ""
+      echo "Salt Workspace VM Ready!"
+      echo "========================"
+      echo ""
+      echo "To sync your workspace into the VM:"
+      echo "  sudo rsync -av ~/salt-workspace/dist/ /srv/"
+      echo ""
+      echo "To apply states:"
+      echo "  sudo salt-call state.highstate"
+      echo ""
+      echo "To test a formula:"
+      echo "  sudo salt-call state.apply <formula>"
+      echo ""
+
+# Message shown after VM starts
+message: |
+  Salt Workspace VM is ready!
+
+  Connect: limactl shell salt
+
+  Quick test:
+    sudo rsync -av ~/salt-workspace/dist/ /srv/
+    sudo salt-call state.highstate

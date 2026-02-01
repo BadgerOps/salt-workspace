@@ -183,6 +183,22 @@ nix develop .#withLima        # Lightweight VMs, no VirtualBox needed
 nix develop .#withVagrant     # Traditional Vagrant VMs
 ```
 
+**Lima VM templates (with Salt pre-installed):**
+
+```bash
+# Start a Salt-ready VM (Ubuntu)
+limactl start ./lima/salt.yaml
+limactl shell salt
+
+# Or AlmaLinux (RHEL-compatible, like the Vagrant setup)
+limactl start ./lima/salt-almalinux.yaml
+limactl shell salt-almalinux
+
+# Inside the VM: sync workspace and test
+sudo rsync -av ~/salt-workspace/dist/ /srv/
+sudo salt-call state.highstate
+```
+
 **With nix-shell (legacy):**
 
 ```bash
