@@ -1,171 +1,171 @@
-This is a workspace for learning the Saltstack configuration management tool
-============================================================================
+# Salt Workspace
 
-This workspace is being developed alongside a series of blog posts on https://blog.badgerops.net. While it can be used as a stand alone framework, there will (hopefully!) be good value in following along with the blog series.
+[![CI](https://github.com/BadgerOps/salt-workspace/actions/workflows/ci.yml/badge.svg)](https://github.com/BadgerOps/salt-workspace/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Salt Version](https://img.shields.io/badge/Salt-3006.7-blue.svg)](https://docs.saltproject.io/)
 
-The following information should get you up and running on either OS X, Windows or Linux.
+A learning workspace for [SaltStack](https://saltproject.io/) configuration management, developed alongside a [blog series](https://blog.badgerops.net).
 
-## Development Setup
+## Quick Start
 
-### OS X / Linux
+**New to this project? Start with [QUICKSTART.md](QUICKSTART.md) for step-by-step setup instructions.**
 
-- Please not that when installing the below packages, unless specified, install from website or link.
+```bash
+# Clone and build
+git clone https://github.com/BadgerOps/salt-workspace.git
+cd salt-workspace
+make
 
-1. Install dependencies
+# Run tests
+make test
 
-    a. Install [Virtualbox](https://www.virtualbox.org)
-
-    b. Install [Vagrant](https://www.vagrantup.com)
-      - install vagrant plugin:
-      ```bash
-      vagrant plugin install vagrant-hostmanager
-      ```
-    c. Ensure Git is installed [Download Git](http://git-scm.com/download/mac). If already installed via xcode tools, you should be ready to go.
-
-    d. ensure Homebrew is installed [Homebrew website](https://brew.sh/)
-
-    e. Ensure pyaml is installed:
-
-   ```bash
-   brew install libyaml
-   # Or
-   sudo apt install python3-pip
-   pip3 install pyyaml
-   ```
-
-2. Ensure [Docker is installed](https://docs.docker.com/desktop/install/mac-install/)
-  - Note: the tests are currently ran in Docker, might refactor to run everything in Docker eventually.
-
-3. Clone the repo, build the project and run the tests (may take a while for the first time). DO NOT move on until dependencies are resolved.
-
-    ```bash
-    git clone https://github.com/BadgerOps/salt-workspace.git
-    cd salt-workspace
-    make
-    make test
-    ```
-    - if make test fails, its most likely because pyyaml is not installed
-
-
-## Salt development
-
-Prior to testing your changes, make sure you build the project first. Vagrant will only expose the ./dist directory to the saltmaster's /srv directory. Running the command 'make' in the root directory should build the entire project for you.
-
-#### *Make sure you re-run make after each local change or it will not be reflected in the virtual environment.*
-
-This can be automated on your development machine using various tools such as [Watchman](https://facebook.github.io/watchman/). They will monitor your directory for changes and automatically run the make command for you.
-
-Because development environment differ, this is not included in this repository.
-
-
-### Linux
-
-The Linux test hosts default to AlmaLinux 8.x. If you want to test AlmaLinux 7.x, set your environment variable LINUX_VERSION to 7: ```export LINUX_VERSION=7```
-
-1. Launch the saltmaster and linux hosts ```vagrant up```. This may take a while when running for the very first time because the VM needs to be downloaded. Ensure that you're on a fast internet connection.
-2. Log into the test Linux host ```vagrant ssh linux-1```. Here you can run ```sudo su -``` to become root. No password is required. (if prompted, it will be the vagrant default 'vagrant')
-3. A highstate should get invoked during provisioning. To re-run a highstate, invoke ```sudo salt-call state.highstate``` from within the test VM.
-4. To test a specific role, add a role to the grains file in ```/etc/salt/grains``` and re-run a highstate. For example, to test the role foo_bar, edit the grains file to match the following snippet.
-```yaml
-roles:
-   - foo_bar
+# Start VMs
+vagrant up
 ```
 
-#### Multiple VM Testing
+## Project Structure
 
-If testing a role/formula that requires multiple minions, you can increase the linux minion count by setting the LINUX_MINION_COUNT environment variable before running vagrant up. See below as an example.
+```
+salt-workspace/
+├── salt/               # Salt states
+│   ├── top.sls         # State assignments
+│   └── roles/          # Role-based states
+├── formulas/           # Reusable Salt formulas
+│   ├── motd/           # Message of the Day
+│   ├── packages/       # Package management
+│   └── users/          # User management
+├── pillar/             # Configuration data
+├── config/             # Salt master/minion configs
+├── tests/              # Test scripts
+├── .devcontainer/      # VS Code / Codespaces config
+└── .github/workflows/  # CI/CD pipeline
+```
+
+## Prerequisites
+
+| Tool | Purpose |
+|------|---------|
+| [VirtualBox](https://www.virtualbox.org/) | VM hypervisor |
+| [Vagrant](https://www.vagrantup.com/) | VM management |
+| [Docker](https://www.docker.com/) | Formula testing |
+| Python 3 + PyYAML | Lint scripts |
+
+```bash
+# Install Vagrant plugin
+vagrant plugin install vagrant-hostmanager
+```
+
+## Make Commands
+
+| Command | Description |
+|---------|-------------|
+| `make` | Build dist/ directory |
+| `make test` | Run full test suite |
+| `make lint` | Linting checks only |
+| `make docker` | Docker formula tests |
+| `make coverage` | Test coverage report |
+| `make package` | Create tarball |
+| `make clean` | Remove dist/ |
+| `make help` | Show all commands |
+
+## Development
+
+### Workflow
+
+1. Make changes in `salt/`, `formulas/`, or `pillar/`
+2. Build: `make`
+3. Test: `make test`
+4. Apply in VM: `vagrant ssh linux-1` → `sudo salt-call state.highstate`
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LINUX_DISTRO` | almalinux | OS distribution |
+| `LINUX_VERSION` | 8 | OS version |
+| `LINUX_MINION_COUNT` | 1 | Number of minions |
+| `LINUX_BOX_RAM` | 1024 | RAM per VM (MB) |
+| `SALT_VERSION` | 3006.7 | Salt version |
+
+### Multiple Minions
 
 ```bash
 export LINUX_MINION_COUNT=3
 vagrant up /linux/
 ```
-You should now have a linux-1, linux-2, and linux-3 machine.
 
-
-####  Memory Settings
-
-Some minions may require more than the default memory of 1024MB. You may increase this before running vagrant up. The following example uses 2GB of memory per minion.
+### Different Distributions
 
 ```bash
-export LINUX_BOX_RAM=2048
-vagrant up
+# Ubuntu
+export LINUX_DISTRO=ubuntu LINUX_VERSION=22.10 && vagrant up
+
+# AlmaLinux 9
+export LINUX_DISTRO=almalinux LINUX_VERSION=9 && vagrant up
 ```
 
-### Windows
+## Creating Formulas
 
-1. Launch the saltmaster and windows hosts ```vagrant up saltmaster```, ```vagrant up windows```. This may take a while when running for the very first time because the VM needs to be downloaded. Ensure that you are on a fast internet connection.
-2. Log into the test Windows host ```vagrant rdp windows```. The username is Administrator and password is vagrant all lower case.
-3. A highstate should get invoked during provisioning. To re-run a highstate, invoke ```c:\salt-call.bat state.highstate``` from within a terminal.
-4. To test a specific role, add a role to the grains file in c:\salt\conf\grains and re-run a highstate. For example, to test the role foo_bar, edit the grains file to match the following snippet.
-```yaml
-roles:
-  - foo_bar
+Every formula needs:
+
+```
+formulas/myformula/
+├── init.sls          # Main state file
+├── pillar.example    # Example configuration
+└── tests/
+    └── init.yaml     # Test definitions
 ```
 
-## Workflow for making changes
+See the [packages](formulas/packages/) and [users](formulas/users/) formulas for examples.
 
-Use the following workflow to submit a new feature or bug fix.
+## Testing Roles
 
-1. Fork the repository
-2. Clone the repository.
-3. Ensure your user information is correct.
-4. Create a new branch locally.
-5. Make your changes and commit locally.
-6. Push the changes to the upstream repository.
-7. Submit a pull request.
+1. SSH into a minion: `vagrant ssh linux-1`
+2. Edit grains: `sudo vim /etc/salt/grains`
+   ```yaml
+   roles:
+     - base
+     - your_role
+   ```
+3. Apply: `sudo salt-call state.highstate`
 
-Below is an example of steps 2-5 - you'll want to fork the repository to your own github profile first.
+## Encrypting Secrets
+
+Use GPG for sensitive pillar data:
 
 ```bash
-git clone https://github.com/john_doe/salt-workspace.git
-cd salt-workspace
-git config user.name "Doe, John"
-git config user.email john.doe@foo.tld
-git checkout -b feature/some-new-feature
-# Make your changes.
-vim ./path/to/file.sls
-# Commit your changes locally.
-git add ./poth/to/file.sls
-git commit -m 'Making a change to file.sls for reason foo'
-# Push your changes to the Git server.
-git push --set-upstream origin feature/some-new-feature
-```
-When you create a branch - You branch from a parent. You generally want the parent to always be an updated master. Thus before making any new branches or changes - you want to obtain an updated master. If you were to attempt to make a new branch with out running the following commands after doing the git push you would be creating a new branch that has a parent of the previous branch you just pushed.
+# Generate key (one-time setup)
+gpg --gen-key --homedir /etc/salt/gpgkeys
 
-```bash
-git checkout master
-git fetch
-git pull origin master
-git checkout -b feature/some-new-feature
-```
-
-See [Daniel Miessler's git Primer](https://danielmiessler.com/study/git/) for more help with using Git.
-
-
-### Encrypting pillar values
-
-It's possible to encrypt pillar values using the [GPG renderer](http://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.gpg.html). This is highly advised for any sensitive information such as passwords and SSL keys.
-
-You'll need to first install [GnuPG](https://www.gnupg.org/download/). Once installed, you can create and import the Salt key with the following command.
-
-You can then follow [this guide](https://fedoraproject.org/wiki/Creating_GPG_Keys#Creating_GPG_Keys_Using_the_Command_Line) to create your GPG key, the following steps assume the name is 'Salt Master', or as noted [in the documentation](https://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.gpg.html) you can do the following:
-```
-# mkdir -p /etc/salt/gpgkeys
-# chmod 0700 /etc/salt/gpgkeys
-# gpg --gen-key --homedir /etc/salt/gpgkeys
-```
-*IMPORTANT:* safeguard the private key that is generated, this (must!) live on the salt master under `/etc/salt/gpgkeys` but you should take precautions to keep it safe and secure, or your secrets encrypted with it are meaningless.
-
-```bash
-gpg --import salt_key.asc
-```
-
-You can encrypt a new password with the following command where 'mysecret' without quotes is your secret value.
-
-```bash
+# Encrypt a value
 echo -n 'mysecret' | gpg --armor --encrypt -r 'Salt Master'
 ```
 
-Once you have this text, you can add to Pillar. Any pillar file must have the string `#!yaml|gpg` at the top in order for the GPG renderer to kick in.
+Add `#!yaml|gpg` shebang to pillar files with encrypted values.
 
-When the pillar file is rendered, it will get decrypted on the master and your minion will receive the plain text value.
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Development Environment
+
+### VS Code / GitHub Codespaces
+
+This project includes a [Dev Container](.devcontainer/) configuration for instant development environments:
+
+- **VS Code**: Install the Dev Containers extension, then "Reopen in Container"
+- **Codespaces**: Click "Code" → "Codespaces" → "Create codespace"
+
+### Local Setup
+
+Follow the instructions in [QUICKSTART.md](QUICKSTART.md).
+
+## Resources
+
+- [Blog Series](https://blog.badgerops.net) - Tutorials and guides
+- [Salt Documentation](https://docs.saltproject.io/) - Official docs
+- [Salt Formulas](https://github.com/saltstack-formulas) - Community formulas
+
+## License
+
+[MIT License](LICENSE) - see LICENSE file for details.

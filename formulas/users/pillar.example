@@ -1,0 +1,32 @@
+# users formula pillar configuration
+#
+# Define users to manage on the system.
+
+users:
+  # Users to create/manage
+  managed:
+    johndoe:
+      fullname: John Doe
+      shell: /bin/bash
+      groups:
+        - wheel
+        - developers
+      sudo: true
+      sudo_nopasswd: false
+      ssh_keys:
+        - ssh-rsa AAAAB3NzaC1... john@example.com
+
+    deploy:
+      fullname: Deploy User
+      shell: /bin/bash
+      groups:
+        - www-data
+      sudo: true
+      sudo_nopasswd: true
+      ssh_keys:
+        - ssh-rsa AAAAB3NzaC1... deploy@example.com
+
+  # Users to remove (optional)
+  # absent:
+  #   - olduser
+  #   - tempuser

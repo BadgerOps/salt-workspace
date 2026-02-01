@@ -1,0 +1,17 @@
+# packages formula pillar configuration
+#
+# Define packages to install across all minions or per-role.
+
+packages:
+  # Packages to install
+  install:
+    - vim
+    - curl
+    - wget
+    - git
+    - htop
+    - tree
+
+  # Packages to remove (optional)
+  # remove:
+  #   - nano

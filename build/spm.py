@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+"""Salt Package Manager - manages formula dependencies."""
 
 import os
+import sys
 import yaml
 import shutil
 import tempfile
@@ -16,7 +18,7 @@ def git_clone(source, branch=None, destination=None):
         args.append(destination)
 
     args.append('2>&1')
-    out = subprocess.check_output(' '.join(args), shell=True)
+    out = subprocess.check_output(' '.join(args), shell=True, text=True)
     if len(out.split('\n')) == 2:
         return True
     return False
@@ -29,7 +31,7 @@ def git_get_latest_commit(directory=None, ref='HEAD'):
     old_dir  = os.getcwd()
     os.chdir(directory)
     args = ['git', 'rev-parse', ref]
-    out = subprocess.check_output(' '.join(args), shell=True)
+    out = subprocess.check_output(' '.join(args), shell=True, text=True)
     out = out.rstrip('\n')
     os.chdir(old_dir)
     if len(out) == 40:
@@ -44,14 +46,14 @@ def git_reset(directory, ref, hard=True):
     args = ['git', 'reset', ref]
     if hard:
         args.append('--hard')
-    out = subprocess.check_output(' '.join(args), shell=True)
+    out = subprocess.check_output(' '.join(args), shell=True, text=True)
     os.chdir(old_dir)
     if len(out.split('\n')) == 2:
         return True
     return False
 
 
-class Formula(object):
+class Formula:
     def __init__(self, name, source, branch='master', sha='HEAD', directory=None):
         self.name = name
         self.source = source
@@ -70,7 +72,7 @@ class Formula(object):
             return False
 
         # If hashes match, we're good.
-        with open(os.path.join(self.path, 'SHA'), 'rb') as fh:
+        with open(os.path.join(self.path, 'SHA'), 'r') as fh:
             sha = fh.read().rstrip('\n')
             if self.sha == sha:
                 return True
@@ -110,15 +112,15 @@ class Formula(object):
         return str(self.__dict__)
 
 
-class Saltfile(object):
+class Saltfile:
     def __init__(self, path='./Saltfile'):
         self.path = path
         self.formulas = []
         self.load()
 
     def load(self):
-        with open(self.path, 'rb') as fh:
-            cfg = yaml.load(fh)
+        with open(self.path, 'r') as fh:
+            cfg = yaml.safe_load(fh)
             for f in cfg.get('formulas', []):
                 formula = Formula(f['name'], f['source'], f.get('branch', 'master'), f.get('sha', 'HEAD'), f.get('directory'))
                 self.formulas.append(formula)

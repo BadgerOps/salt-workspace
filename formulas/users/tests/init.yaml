@@ -1,0 +1,8 @@
+# Test that user management works correctly
+users:
+  sudoers_dir:
+    file:
+      path: /etc/sudoers.d
+      exists: true
+      is_directory: true
+      mode: '0750'
