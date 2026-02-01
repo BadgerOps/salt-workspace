@@ -43,6 +43,14 @@ salt-workspace/
 
 ## Prerequisites
 
+**Option A: Use Nix (recommended)** - All tools included automatically:
+
+```bash
+nix develop  # or: direnv allow
+```
+
+**Option B: Manual installation:**
+
 | Tool | Purpose |
 |------|---------|
 | [VirtualBox](https://www.virtualbox.org/) | VM hypervisor |
@@ -148,6 +156,59 @@ Add `#!yaml|gpg` shebang to pillar files with encrypted values.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Development Environment
+
+### Nix (Recommended)
+
+This project includes a [Nix flake](https://nixos.wiki/wiki/Flakes) for reproducible development environments. All dependencies are pinned and isolated from your system.
+
+**With Nix flakes (recommended):**
+
+```bash
+# Enter development shell
+nix develop
+
+# Or run a command directly
+nix develop --command make test
+```
+
+**With nix-shell (legacy):**
+
+```bash
+nix-shell
+```
+
+**With direnv (automatic activation):**
+
+```bash
+# One-time setup
+direnv allow
+
+# Now the environment activates automatically when you cd into the project
+cd salt-workspace  # environment loads automatically
+```
+
+**What's included in the Nix environment:**
+
+| Tool | Purpose |
+|------|---------|
+| Python 3.11 + PyYAML | Scripts and linting |
+| Docker + docker-compose | Container-based testing |
+| Vagrant | VM management (requires VirtualBox) |
+| yamllint, shellcheck | Linting and validation |
+| make, rsync, git | Build tools |
+| jq, yq | YAML/JSON utilities |
+
+**Installing Nix:**
+
+```bash
+# Linux/macOS (multi-user installation)
+sh <(curl -L https://nixos.org/nix/install) --daemon
+
+# Enable flakes (add to ~/.config/nix/nix.conf)
+experimental-features = nix-command flakes
+```
+
+See the [Nix installation guide](https://nixos.org/download.html) for more options.
 
 ### VS Code / GitHub Codespaces
 
