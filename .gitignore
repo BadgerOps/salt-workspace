@@ -64,3 +64,11 @@ gpgkeys/
 # Local configuration overrides
 local.sls
 local/
+
+# Nix
+result
+result-*
+.direnv/
+
+# Nix flake lock (optional - uncomment to ignore)
+# flake.lock

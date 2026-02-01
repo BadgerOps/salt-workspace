@@ -1,0 +1,84 @@
+# Lima VM template with Salt pre-installed (AlmaLinux 9)
+# Usage: limactl start ./lima/salt-almalinux.yaml
+#
+# AlmaLinux version for testing RHEL-compatible systems.
+# Mirrors the Vagrant environment more closely.
+
+# VM settings
+cpus: 2
+memory: 2GiB
+disk: 20GiB
+
+# AlmaLinux 9 (RHEL-compatible)
+images:
+  - location: "https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
+    arch: "x86_64"
+  - location: "https://repo.almalinux.org/almalinux/9/cloud/aarch64/images/AlmaLinux-9-GenericCloud-latest.aarch64.qcow2"
+    arch: "aarch64"
+
+# Mount the workspace read-only for testing
+mounts:
+  - location: "~"
+    writable: false
+  - location: "/tmp/lima"
+    writable: true
+
+# Provision Salt on first boot
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+
+      echo "=== Installing Salt 3006 (stable) on AlmaLinux ==="
+
+      # Install Salt via bootstrap script
+      curl -fsSL https://bootstrap.saltproject.io -o /tmp/bootstrap-salt.sh
+      sh /tmp/bootstrap-salt.sh -P stable 3006
+
+      # Configure masterless mode
+      cat > /etc/salt/minion.d/masterless.conf <<'EOF'
+      # Masterless (standalone) mode
+      file_client: local
+
+      # File roots - uses Lima mount
+      file_roots:
+        base:
+          - /srv/salt
+          - /srv/formulas
+
+      # Pillar roots
+      pillar_roots:
+        base:
+          - /srv/pillar
+      EOF
+
+      # Create directories
+      mkdir -p /srv/salt /srv/formulas /srv/pillar
+
+      echo "=== Salt installed ==="
+      salt-call --version
+
+  - mode: user
+    script: |
+      #!/bin/bash
+      echo ""
+      echo "Salt Workspace VM Ready! (AlmaLinux)"
+      echo "====================================="
+      echo ""
+      echo "To sync your workspace into the VM:"
+      echo "  sudo rsync -av ~/salt-workspace/dist/ /srv/"
+      echo ""
+      echo "To apply states:"
+      echo "  sudo salt-call state.highstate"
+      echo ""
+
+# Message shown after VM starts
+message: |
+  Salt Workspace VM (AlmaLinux 9) is ready!
+
+  Connect: limactl shell salt-almalinux
+
+  Quick test:
+    sudo rsync -av ~/salt-workspace/dist/ /srv/
+    sudo salt-call state.highstate

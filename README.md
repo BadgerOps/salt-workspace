@@ -43,6 +43,14 @@ salt-workspace/
 
 ## Prerequisites
 
+**Option A: Use Nix (recommended)** - All tools included automatically:
+
+```bash
+nix develop  # or: direnv allow
+```
+
+**Option B: Manual installation:**
+
 | Tool | Purpose |
 |------|---------|
 | [VirtualBox](https://www.virtualbox.org/) | VM hypervisor |
@@ -148,6 +156,86 @@ Add `#!yaml|gpg` shebang to pillar files with encrypted values.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Development Environment
+
+### Nix (Recommended)
+
+This project includes a [Nix flake](https://nixos.wiki/wiki/Flakes) for reproducible development environments. All dependencies are pinned and isolated from your system.
+
+**Available shells:**
+
+| Shell | Command | Description |
+|-------|---------|-------------|
+| Default | `nix develop` | Docker-based testing (works everywhere) |
+| Vagrant | `nix develop .#withVagrant` | Full VMs (requires VirtualBox) |
+| Lima | `nix develop .#withLima` | Lightweight VMs (macOS/Linux) |
+
+**Quick start:**
+
+```bash
+# Default shell (Docker-based, recommended for most users)
+nix develop
+
+# Run tests directly
+nix develop --command make test
+
+# If you need full VMs for testing
+nix develop .#withLima        # Lightweight VMs, no VirtualBox needed
+nix develop .#withVagrant     # Traditional Vagrant VMs
+```
+
+**Lima VM templates (with Salt pre-installed):**
+
+```bash
+# Start a Salt-ready VM (Ubuntu)
+limactl start ./lima/salt.yaml
+limactl shell salt
+
+# Or AlmaLinux (RHEL-compatible, like the Vagrant setup)
+limactl start ./lima/salt-almalinux.yaml
+limactl shell salt-almalinux
+
+# Inside the VM: sync workspace and test
+sudo rsync -av ~/salt-workspace/dist/ /srv/
+sudo salt-call state.highstate
+```
+
+**With nix-shell (legacy):**
+
+```bash
+nix-shell                              # Default
+nix-shell --arg withLima true          # With Lima
+nix-shell --arg withVagrant true       # With Vagrant
+```
+
+**With direnv (automatic activation):**
+
+```bash
+direnv allow    # One-time setup, then auto-activates on cd
+```
+
+**What's included:**
+
+| Tool | Purpose |
+|------|---------|
+| Python 3.11 + PyYAML | Scripts and linting |
+| Docker + docker-compose | Container-based testing |
+| yamllint, shellcheck | Linting and validation |
+| make, rsync, git | Build tools |
+| jq, yq | YAML/JSON utilities |
+| Lima (optional) | Lightweight Linux VMs |
+| Vagrant (optional) | Full VM management |
+
+**Installing Nix:**
+
+```bash
+# Linux/macOS (multi-user installation)
+sh <(curl -L https://nixos.org/nix/install) --daemon
+
+# Enable flakes (add to ~/.config/nix/nix.conf)
+experimental-features = nix-command flakes
+```
+
+See the [Nix installation guide](https://nixos.org/download.html) for more options.
 
 ### VS Code / GitHub Codespaces
 

@@ -4,6 +4,22 @@ Get up and running with Salt Workspace in minutes.
 
 ## Prerequisites
 
+### Option A: Nix (Recommended)
+
+If you have [Nix](https://nixos.org/) installed, all dependencies are provided automatically:
+
+```bash
+# Enter the development environment (all tools included)
+nix develop
+
+# Or with direnv for automatic activation
+direnv allow
+```
+
+Skip to [Clone & Build](#1-clone--build) if using Nix.
+
+### Option B: Manual Installation
+
 Install these tools before starting:
 
 | Tool | macOS | Ubuntu/Debian | Purpose |
