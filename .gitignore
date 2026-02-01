@@ -1,4 +1,66 @@
-.vagrant
+# Vagrant
+.vagrant/
+
+# Build output
 dist/
+
+# Salt grains (local testing)
 grains
-.idea
+
+# IDE / Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env
+pip-log.txt
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Package files
+*.tgz
+*.tar.gz
+*.zip
+
+# GPG keys (never commit!)
+*.asc
+*.gpg
+gpgkeys/
+
+# Local configuration overrides
+local.sls
+local/

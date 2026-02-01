@@ -3,6 +3,9 @@ GIT_SHA = $(shell git log --pretty=oneline | head -n1 | cut -c1-8)
 PACKAGE = "salt_config-$(GIT_SHA).tgz"
 SHASUM = $(shell test `uname` == 'Darwin' && echo shasum -a 256 || echo sha256sum)
 
+.PHONY: all lint docker test package clean coverage help
+
+.DEFAULT_GOAL := all
 
 all: formulas
 	@mkdir -p dist 
@@ -36,3 +39,23 @@ clean::
 
 coverage:
 	@tests/coverage.sh
+
+help:
+	@echo "Salt Workspace - Available Commands"
+	@echo "===================================="
+	@echo ""
+	@echo "  make          Build the dist/ directory (default)"
+	@echo "  make test     Run full test suite (clean, build, lint)"
+	@echo "  make lint     Run linting checks only"
+	@echo "  make docker   Run Docker-based formula tests"
+	@echo "  make coverage Show test coverage report"
+	@echo "  make package  Create distributable tarball"
+	@echo "  make clean    Remove dist/ directory"
+	@echo "  make help     Show this help message"
+	@echo ""
+	@echo "Quick Start:"
+	@echo "  1. make        # Build the project"
+	@echo "  2. make test   # Run tests"
+	@echo "  3. vagrant up  # Start VMs"
+	@echo ""
+	@echo "See QUICKSTART.md for detailed instructions."

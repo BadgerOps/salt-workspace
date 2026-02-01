@@ -1,0 +1,14 @@
+# Test that common packages are installed
+packages:
+  vim:
+    package:
+      installed: true
+      name: vim
+  curl:
+    package:
+      installed: true
+      name: curl
+  wget:
+    package:
+      installed: true
+      name: wget

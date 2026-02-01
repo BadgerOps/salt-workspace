@@ -5,7 +5,7 @@
 formula_coverage() {
   local states=$(find ./formulas/ -name *sls | wc -l)
   local tests=$(find ./formulas/*/tests -name *yaml 2>/dev/null | wc -l)
-  local coverage=$(python -c "print(round(($tests/$states.0)*100, 1))")
+  local coverage=$(python3 -c "print(round(($tests/$states.0)*100, 1))")
   echo "${coverage}% of formulas are covered by a test."
 }
 
@@ -13,7 +13,7 @@ formula_coverage() {
 role_coverage() {
   local states=$(find ./salt/roles/ -name *sls | wc -l)
   local tests=$(find ./salt/roles/*/tests -name *yaml 2>/dev/null | wc -l)
-  local coverage=$(python -c "print(round(($tests/$states.0)*100, 1))")
+  local coverage=$(python3 -c "print(round(($tests/$states.0)*100, 1))")
   echo "${coverage}% of roles are covered by a test."
 }
 

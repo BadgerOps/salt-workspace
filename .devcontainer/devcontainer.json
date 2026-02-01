@@ -1,0 +1,35 @@
+{
+  "name": "Salt Workspace",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "postCreateCommand": "pip install pyyaml && make",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.vscode-yaml",
+        "ms-python.python",
+        "korekontrol.saltstack",
+        "EditorConfig.EditorConfig",
+        "GitHub.vscode-pull-request-github"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "editor.tabSize": 2,
+        "files.associations": {
+          "*.sls": "yaml"
+        },
+        "yaml.schemas": {
+          "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+        }
+      }
+    }
+  },
+  "forwardPorts": [],
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "SALT_VERSION": "3006.7"
+  }
+}
