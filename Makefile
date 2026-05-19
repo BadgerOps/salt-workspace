@@ -3,7 +3,7 @@ GIT_SHA = $(shell git log --pretty=oneline | head -n1 | cut -c1-8)
 PACKAGE = "salt_config-$(GIT_SHA).tgz"
 SHASUM = $(shell test `uname` == 'Darwin' && echo shasum -a 256 || echo sha256sum)
 
-.PHONY: all lint docker test package clean coverage help
+.PHONY: all lint docker test package package-smoke clean coverage help
 
 .DEFAULT_GOAL := all
 
@@ -24,13 +24,16 @@ lint:
 docker:
 	@tests/docker.sh
 
-test: clean all lint
+test: clean all lint package-smoke
 	@true
 
 package: clean all
-	@tar czf $(PACKAGE) ./dist/
+	@tar czf $(PACKAGE) -C ./dist .
 	@mv -f $(PACKAGE) ./dist
 	@echo "Package ./dist/$(PACKAGE) is ready."
+
+package-smoke: package
+	@tests/package.sh ./dist/$(PACKAGE)
 
 clean::
 	@echo -n "Removing ./dist directory..."
@@ -50,6 +53,7 @@ help:
 	@echo "  make docker   Run Docker-based formula tests"
 	@echo "  make coverage Show test coverage report"
 	@echo "  make package  Create distributable tarball"
+	@echo "  make package-smoke Validate tarball layout against MANIFEST"
 	@echo "  make clean    Remove dist/ directory"
 	@echo "  make help     Show this help message"
 	@echo ""
