@@ -165,8 +165,15 @@ docs: update quickstart with Docker instructions
 make test      # Full test suite (lint + docker)
 make lint      # Linting only
 make docker    # Docker tests only
+make package-smoke  # Validate package tarball layout
 make coverage  # Show test coverage
 ```
+
+### Package Layout
+
+Release tarballs are intended to be extracted directly into `/srv`. Keep `make package` archives rooted at the contents of `dist/`, not at a top-level `dist/` directory, so archive paths match the `/srv/...` paths written to `MANIFEST`.
+
+If you change packaging, update the release documentation and run `make package-smoke`. The smoke test rejects tarballs with an unintended `dist/` prefix and checks that each `MANIFEST` path has a corresponding archive entry.
 
 ### Writing Tests
 

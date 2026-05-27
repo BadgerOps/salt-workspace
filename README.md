@@ -68,11 +68,12 @@ vagrant plugin install vagrant-hostmanager
 | Command | Description |
 |---------|-------------|
 | `make` | Build dist/ directory |
-| `make test` | Run full test suite |
+| `make test` | Run full test suite, including package layout validation |
 | `make lint` | Linting checks only |
 | `make docker` | Docker formula tests |
 | `make coverage` | Test coverage report |
 | `make package` | Create tarball |
+| `make package-smoke` | Validate tarball layout against `MANIFEST` |
 | `make clean` | Remove dist/ |
 | `make help` | Show all commands |
 
@@ -84,6 +85,12 @@ vagrant plugin install vagrant-hostmanager
 2. Build: `make`
 3. Test: `make test`
 4. Apply in VM: `vagrant ssh linux-1` → `sudo salt-call state.highstate`
+
+### Release Packages
+
+`make package` creates `dist/salt_config-<sha>.tgz`. The archive is built from inside `dist/`, so its root contains `salt/`, `formulas/`, `pillar/`, `SHA`, `MANIFEST`, and `MANIFEST.sha256` directly. Extract the tarball into `/srv` to match the `/srv/...` paths recorded in `MANIFEST`.
+
+Run `make package-smoke` to verify that the archive has no extra `dist/` prefix and that every `/srv/...` path in `MANIFEST` has a matching tar entry.
 
 ### Environment Variables
 
