@@ -72,3 +72,4 @@ result-*
 
 # Nix flake lock (optional - uncomment to ignore)
 # flake.lock
+.clawpatch/
