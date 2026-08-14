@@ -1,3 +1,5 @@
+
+
 # Salt Workspace
 
 [![CI](https://github.com/BadgerOps/salt-workspace/actions/workflows/ci.yml/badge.svg)](https://github.com/BadgerOps/salt-workspace/actions/workflows/ci.yml)
@@ -106,7 +108,7 @@ Run `make package-smoke` to verify that the archive has no extra `dist/` prefix 
 
 ```bash
 export LINUX_MINION_COUNT=3
-vagrant up /linux/
+vagrant up
 ```
 
 ### Different Distributions
